@@ -5,34 +5,46 @@
 ## (PT-BR): Esta funcao cria um objeto matriz especial que pode armazenar em cache seu inverso.
 
 makeCacheMatrix <- function(matriz = matrix()) {
+	#creating new matrix to cache the inverse
 	inverso <- NULL
-	definir <- function(outraMatriz){
+
+	#creating function to set the matrix
+	definir <- function(outraMatriz) {
 		matriz <<- outraMatriz
 		indice <<- NULL
 	}
+
+	# creating function to get the matrix
 	obter <- function() matriz
+
+	#creating function to set the inverse
 	definirInvertido <- function(invertido) inverso <<- invertido
+
+	#creating function to get the inverse
 	obterInvertido <- function() inverso
-	list(
-		definir=definir, 
-		obter=obter, 
-		definirInvertido=definirInvertido,
-		obterInvertido=obterInvertido
-		)
-	
+
+	#returing a list of functions to set and get the matrix and set and get the inverse
+	list(definir = definir, obter = obter, definirInvertido = definirInvertido, obterInvertido = obterInvertido)
+
 }
+
 
 
 ## (EN-US) This function computes the inverse of the special "matrix" returned by makeCacheMatrix above. 
 ## (PT-BR) Esta funcao calcula o inverso da matriz especial retornada pela funcao makeCacheMatrix acima.
 
 cacheSolve <- function(par1, ...) {
-        inverso <- par1$obterInvertido()
-        if(!is.null(inverso)){
-        		return(inverso)
-        }
-        dado <- par1$obter()
-        inverso <- solve(dado)
-        par1$definirInvertido(inverso)
-        inverso
+	#getting the inverse
+	inverso <- par1$obterInvertido()
+
+	#checking if inverse is already calculated, returning it if so
+	if (!is.null(inverso)) {
+		return(inverso)
+	}
+
+	#calculating the inverse, and returing it after that
+	dado <- par1$obter()
+	inverso <- solve(dado)
+	par1$definirInvertido(inverso)
+	inverso
 }
